@@ -35,7 +35,7 @@ class LoginAuthService {
         const token = generateToken({
             id: user.id,
             roleId: user.roleId,
-            roleLevel: user.Role.level,
+            level: user.Role.level,
             permissions: user.permissions
         });
 

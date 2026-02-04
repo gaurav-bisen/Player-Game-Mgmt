@@ -1,14 +1,15 @@
 import db from '../../models/index.js'
 import bcrypt from 'bcrypt'
+import { isPermissionSubset } from '../../helpers/permission.helper.js';
 
 class CreateUserService {
     // Helper to check if permission assigned is subset of creator's permission
-    isSubset(assignedPermissions, creatorPermissions) {
-        return Object.keys(assignedPermissions).every(category =>
-            creatorPermissions[category] && // does creator have this category?
-            assignedPermissions[category].every(p => creatorPermissions[category].includes(p))  // every action exists in creator's permissions
-        );
-    }
+    // isSubset(assignedPermissions, creatorPermissions) {
+    //     return Object.keys(assignedPermissions).every(category =>
+    //         creatorPermissions[category] && // does creator have this category?
+    //         assignedPermissions[category].every(p => creatorPermissions[category].includes(p))  // every action exists in creator's permissions
+    //     );
+    // }
 
     async createUser(creator, data) {
 
@@ -25,12 +26,13 @@ class CreateUserService {
 
         if (creatorRole.level >= targetRole.level) {
             throw {
+                status: 403,
                 message: 'You cannot create this role. You Dont have permission!'
             };
         }
 
         if (creatorRole.level !== 1 && data.permissions) {
-            if (!this.isSubset(data.permissions, creator.permissions)) {
+            if (!isPermissionSubset(data.permissions, creator.permissions)) {
                 throw {
                     message: 'Cannot assign higher permissions than your own'
                 };

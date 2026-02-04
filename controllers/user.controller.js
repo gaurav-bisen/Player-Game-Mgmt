@@ -18,7 +18,7 @@ class UserController {
         }
     }
 
-    async getAllUser() {
+    async getAllUser(req, res, next) {
         try {
             const { roleId } = req.query;
             const users = await getAllUsersService.getAllUsers(roleId);

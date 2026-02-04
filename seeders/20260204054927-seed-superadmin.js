@@ -8,10 +8,6 @@ export async function up(queryInterface) {
     `SELECT role_id, permissions FROM roles WHERE name = 'superadmin' LIMIT 1;`
   );
 
-  if (!rows.length) {
-    throw new Error('Superadmin role not found. Run roles seeder first.');
-  }
-
   const role = rows[0];
 
   const password = await bcrypt.hash('Superadmin@123', 10);

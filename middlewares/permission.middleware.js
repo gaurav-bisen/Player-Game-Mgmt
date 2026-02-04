@@ -1,6 +1,3 @@
-import db from '../models/index.js'
-// const { RolePermission } = db;
-
 export const checkPermission = (feature, operation) => {
   return async (req, res, next) => {
     const permissions = req.user.permissions;

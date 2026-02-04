@@ -6,10 +6,10 @@ import authController from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
-router.post('/create', authenticate, checkPermission('user', 'create'), userController.createUser);
+router.post('/create', authenticate, checkPermission('staff_management', 'create'), userController.createUser);
 
 router.post('/login', authController.login);
 
-router.get('/', authenticate, checkPermission('user', 'create'), userController.getAllUser);
+router.get('/', authenticate, userController.getAllUser);
 
 export default router;

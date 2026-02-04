@@ -7,6 +7,7 @@ export async function up(queryInterface) {
       name: 'superadmin',
       level: 1,
       permissions: JSON.stringify({
+        staff_management: ['create', 'read', 'update', 'delete'],
         game_management: ['create', 'read', 'update', 'delete'],
         player_management: ['read', 'update', 'delete']
       }),
@@ -17,8 +18,9 @@ export async function up(queryInterface) {
       name: 'admin',
       level: 2,
       permissions: JSON.stringify({
+        staff_management: ['create', 'read', 'update', 'delete'],
         game_management: ['create', 'read', 'update', 'delete'],
-        player_management: ['create', 'read', 'update', 'delete']
+        player_management: [ 'read', 'update', 'delete']
       }),
       created_at: new Date(),
       updated_at: new Date()
@@ -27,8 +29,9 @@ export async function up(queryInterface) {
       name: 'manager',
       level: 3,
       permissions: JSON.stringify({
+        staff_management: ['create', 'read', 'update'],
         game_management: ['create', 'read', 'update'],
-        player_management: ['create', 'read', 'update']
+        player_management: ['read', 'update']
       }),
       created_at: new Date(),
       updated_at: new Date()
@@ -37,6 +40,7 @@ export async function up(queryInterface) {
       name: 'support',
       level: 4,
       permissions: JSON.stringify({
+        staff_management: ['read', 'update'],
         game_management: [ 'read', 'update'],
         player_management: ['read', 'update']
       }),
