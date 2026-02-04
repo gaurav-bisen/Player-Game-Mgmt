@@ -3,13 +3,6 @@ import bcrypt from 'bcrypt'
 import { isPermissionSubset } from '../../helpers/permission.helper.js';
 
 class CreateUserService {
-    // Helper to check if permission assigned is subset of creator's permission
-    // isSubset(assignedPermissions, creatorPermissions) {
-    //     return Object.keys(assignedPermissions).every(category =>
-    //         creatorPermissions[category] && // does creator have this category?
-    //         assignedPermissions[category].every(p => creatorPermissions[category].includes(p))  // every action exists in creator's permissions
-    //     );
-    // }
 
     async createUser(creator, data) {
 
