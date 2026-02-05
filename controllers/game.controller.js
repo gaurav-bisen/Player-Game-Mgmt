@@ -7,6 +7,7 @@ import listGamesByCategoryService from '../services/games/listGamesByCategory.se
 import reorderGameCategoryService from '../services/games/reorderCategory.service.js'
 import reorderGameService from '../services/games/reorderGame.service.js'
 
+
 class GameController{
 
     //Categories
