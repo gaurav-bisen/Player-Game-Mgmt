@@ -18,12 +18,15 @@ class CreateGameCategory {
             err.status = 409; // Conflict
             throw err;
         }
+        
+        const lastOrder = await db.GameCategories.max("order_index") || 0;
 
         return db.GameCategories.create({
             name: data.name,
             description: data.description,
             status: data.status,
-            createdBy: creatorId
+            createdBy: creatorId,
+            orderIndex: lastOrder+1
         });
     }
 }

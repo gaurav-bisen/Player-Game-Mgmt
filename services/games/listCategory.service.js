@@ -9,7 +9,8 @@ class ListGameCategory{
                   as: 'creator',
                   attributes: ['id', 'name']
                 }
-              ]
+              ],
+              order: [["orderIndex","ASC"]]
         });
     }
 }

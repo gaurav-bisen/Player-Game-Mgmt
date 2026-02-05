@@ -35,6 +35,12 @@ export default (sequelize, DataTypes) => {
     },
     createdBy: {
       type: DataTypes.INTEGER
+    },
+    orderIndex: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+      field: "order_index"
     }
   }, {
     sequelize,

@@ -4,6 +4,7 @@ import listCategoryService from '../services/games/listCategory.service.js';
 import listGames from '../services/games/listGames.service.js'
 import createGames from '../services/games/createGame.service.js'
 import listGamesByCategoryService from '../services/games/listGamesByCategory.service.js';
+import reorderGameCategoryService from '../services/games/reorderCategory.service.js'
 
 class GameController{
 
@@ -83,6 +84,24 @@ class GameController{
 
         } catch (error) {
             next(error);
+        }
+    }
+
+    //reorder game category
+    async reorderGameCategory(req, res, next) {
+        try {
+            const { categoryId } = req.params;
+            const { newPosition } = req.body;
+
+            const reorder = await reorderGameCategoryService.reorder(categoryId, newPosition);
+
+            handleResponse(res, {
+                status: 201,
+                message: "Games Category reorder SuccessFully!",
+                data: reorder
+              });
+        } catch (error) {
+            next(error)
         }
     }
 
