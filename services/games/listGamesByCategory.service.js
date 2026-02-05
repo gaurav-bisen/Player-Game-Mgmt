@@ -17,7 +17,7 @@ class ListGamesByCategory {
                     attributes: ['id', 'name']
                 }
             ],
-            order: [['createdAt', 'DESC']]
+            order: [['orderIndex', 'ASC']]
         });
     }
 }

@@ -30,7 +30,8 @@ export default (sequelize, DataTypes) => {
 
     categoryId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      field: 'category_id'
     },
 
     status: {

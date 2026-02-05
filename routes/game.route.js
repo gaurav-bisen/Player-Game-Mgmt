@@ -11,7 +11,7 @@ router.post('/categories', authenticate, checkPermission('game_management', 'cre
 router.get('/categories', authenticate, checkPermission('game_management', 'read'), gameController.listCategory)
 
 //reorder category
-router.put('/categories/reorder/:categoryId', authenticate, checkPermission('game_management', 'update'), gameController.reorderGameCategory)
+router.put('/categories/reorder', authenticate, checkPermission('game_management', 'update'), gameController.reorderGameCategory)
 
 //games
 router.post('/', authenticate, checkPermission('game_management', 'create'), gameController.createGame)
@@ -19,7 +19,7 @@ router.post('/', authenticate, checkPermission('game_management', 'create'), gam
 router.get('/', authenticate, checkPermission('game_management', 'read'), gameController.listGame)
 
 //reorder game
-router.put('/reorder/:gameId', authenticate, checkPermission('game_management', 'update'), gameController.reorderGame)
+router.put('/reorder', authenticate, checkPermission('game_management', 'update'), gameController.reorderGame)
 
 //games by category
 router.get('/:categoryId', authenticate, checkPermission('game_management', 'read'), gameController.listGamesByCategory)
