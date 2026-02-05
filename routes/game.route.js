@@ -15,5 +15,8 @@ router.post('/', authenticate, checkPermission('game_management', 'create'), gam
 
 router.get('/', authenticate, checkPermission('game_management', 'read'), gameController.listGame)
 
+//games by category
+router.get('/:categoryId', authenticate, checkPermission('game_management', 'read'), gameController.listGamesByCategory)
+
 export default router;
 

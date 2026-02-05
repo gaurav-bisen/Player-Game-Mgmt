@@ -3,6 +3,7 @@ import createCategoryService from '../services/games/createCategory.service.js'
 import listCategoryService from '../services/games/listCategory.service.js';
 import listGames from '../services/games/listGames.service.js'
 import createGames from '../services/games/createGame.service.js'
+import listGamesByCategoryService from '../services/games/listGamesByCategory.service.js';
 
 class GameController{
 
@@ -67,6 +68,23 @@ class GameController{
         }
     }
 
+    //list games by category
+    async listGamesByCategory(req, res, next) {
+        try {
+            const {categoryId} = req.params;
+
+            const games = await listGamesByCategoryService.list(categoryId);
+
+            handleResponse(res, {
+                status: 201,
+                message: "Games list By Category Fetched SuccessFully!",
+                data: games
+              });
+
+        } catch (error) {
+            next(error);
+        }
+    }
 
 }
 
