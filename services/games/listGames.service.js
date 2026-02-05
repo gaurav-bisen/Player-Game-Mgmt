@@ -13,7 +13,8 @@ class ListGames {
                     as: 'creator',
                     attributes: ['id', 'name']
                 }
-            ]
+            ],
+            order: [["orderIndex","ASC"]]
         });
     }
 }
