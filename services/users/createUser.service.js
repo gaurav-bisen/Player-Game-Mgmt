@@ -18,10 +18,9 @@ class CreateUserService {
 
 
         if (creatorRole.level >= targetRole.level) {
-            throw {
-                status: 403,
-                message: 'You cannot create this role. You Dont have permission!'
-            };
+            const err = new Error('You cannot create this role. You Dont have permission!');
+            err.status = 403;
+            throw err;
         }
 
         if (creatorRole.level !== 1 && data.permissions) {

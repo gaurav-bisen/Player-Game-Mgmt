@@ -6,7 +6,7 @@ const errorHandling = (err, req, res, next)=>{
     const message = err.message || 'Internal Server Error';
 
     res.status(status).json({
-        status: 500,
+        status,
         message,
     })
 }
