@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post('/create',validateAJV(userSchema), authenticate, checkPermission('staff_management', 'create'), userController.createUser);
 
-router.post('/login',validateAJV(userSchema), authController.login);
+router.post('/login', authController.login);
 
 router.get('/', authenticate, userController.getAllUser);
 

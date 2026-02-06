@@ -28,7 +28,9 @@ class GameController{
 
     async listCategory(req, res, next){
         try {
-            const list = await listCategoryService.list();
+            const {page, size, sortBy, order} = req.query;
+
+            const list = await listCategoryService.list(page, size, sortBy, order);
 
             handleResponse(res, {
                 status: 201,
@@ -58,7 +60,9 @@ class GameController{
 
     async listGame(req, res, next){
         try {
-            const list = await listGames.list();
+            const {page, size, sortBy, order} = req.query;
+
+            const list = await listGames.list(page, size, sortBy, order);
 
             handleResponse(res, {
                 status: 201,
@@ -74,9 +78,10 @@ class GameController{
     //list games by category
     async listGamesByCategory(req, res, next) {
         try {
+            const {page, size, sortBy, order} = req.query;
             const {categoryId} = req.params;
 
-            const games = await listGamesByCategoryService.list(categoryId);
+            const games = await listGamesByCategoryService.list(categoryId, page, size, sortBy, order);
 
             handleResponse(res, {
                 status: 201,
