@@ -6,13 +6,14 @@ import createGames from '../services/games/createGame.service.js'
 import listGamesByCategoryService from '../services/games/listGamesByCategory.service.js';
 import reorderGameCategoryService from '../services/games/reorderCategory.service.js'
 import reorderGameService from '../services/games/reorderGame.service.js'
+import BaseHandler from '../utils/baseHandler.js';
 
-
-class GameController{
+class GameController extends BaseHandler{
 
     //Categories
     async createCategory(req, res, next){
         try {
+            // console.log('this.args value --------------------------',this.args,'---------------------------------------------------');
             const category = await createCategoryService.create(req.body, req.user.id);
 
             handleResponse(res, {
@@ -30,12 +31,14 @@ class GameController{
         try {
             const {page, size, sortBy, order} = req.query;
 
-            const list = await listCategoryService.list(page, size, sortBy, order);
+            // const list = await listCategoryService.list(page, size, sortBy, order);
+            const service = listCategoryService.execute({...req.query})
+            const games = await service.list();
 
             handleResponse(res, {
                 status: 201,
                 message: "Game Category Fetched SuccessFully!",
-                data: list
+                data: games
               });
         
         } catch (error) {

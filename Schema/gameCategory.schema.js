@@ -27,7 +27,7 @@ const gameCategorySchema = {
         },
     },
 
-    required: ["name", "orderIndex"],
+    required: ["name"],
 
     additionalProperties: false,
 };

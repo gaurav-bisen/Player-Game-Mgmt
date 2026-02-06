@@ -1,8 +1,8 @@
 import db from '../../models/index.js'
-import { Op } from 'sequelize'
 
 class GameCategoryReorder {
     async reorder(categoryIds) {
+        
         if (!Array.isArray(categoryIds) || categoryIds.length === 0) {
             const err = new Error("categoryIds array required");
             err.status = 400;

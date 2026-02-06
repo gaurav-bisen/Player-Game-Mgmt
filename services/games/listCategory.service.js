@@ -1,7 +1,12 @@
 import db from '../../models/index.js'
+import BaseHandler from '../../utils/baseHandler.js';
 
-class ListGameCategory {
-  async list(page, size, sortBy, order) {
+class ListGameCategory extends BaseHandler {
+  // async list(page, size, sortBy, order) {
+  async list() {
+
+    console.log(this.args);
+    let {page, size, sortBy, order} = this.args
     //pagination
     let pageNum = 1;
     if (page > 0) {
@@ -35,4 +40,4 @@ class ListGameCategory {
   }
 }
 
-export default new ListGameCategory();
+export default  ListGameCategory;
