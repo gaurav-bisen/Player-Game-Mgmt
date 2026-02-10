@@ -14,8 +14,8 @@ class ListGames extends BaseHandler {
         if (page > 0) {
             pageNum = page;
         }
-        let pageSize = 10;
-        if (size > 0 && size <= 15) {
+        let pageSize = 100;
+        if (size > 0 && size <= 1000000) {
             pageSize = size;
         }
 

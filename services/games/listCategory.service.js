@@ -15,7 +15,7 @@ class ListGameCategory extends BaseHandler {
       pageNum = page;
     }
     let pageSize = 10;
-    if (size > 0 && size <= 15) {
+    if (size > 0 && size <= 106) {
       pageSize = size;
     }
 
