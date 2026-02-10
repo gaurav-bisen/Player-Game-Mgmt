@@ -66,3 +66,4 @@ export default function contextMiddleware(transactionStatus = false){
 
 
 //why void -  Fire-and-forget: run transaction commit/rollback in background and intentionally ignore the returned Promise
+//res.writableEnded - It becomes true when the response has been completely sent to the client.
