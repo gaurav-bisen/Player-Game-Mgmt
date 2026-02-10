@@ -1,9 +1,10 @@
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js';
 
-class reorderGame extends BaseHandler{
-    async run(){
-        const {gameIds, categoryId} = this.args;
+class reorderGame extends BaseHandler {
+    async run() {
+        const { gameIds, categoryId } = this.args;
+        const { transaction } = this.context;
 
         if (!Array.isArray(gameIds) || gameIds.length === 0) {
             const err = new Error("gameIds array required");
@@ -19,9 +20,10 @@ class reorderGame extends BaseHandler{
 
         //Verify all games belong to this category
         const games = await db.Games.findAll({
-            where: { id: gameIds,  categoryId },
-            attributes: ['id','category_id'],
-            order: [['orderIndex', 'ASC']]
+            where: { id: gameIds, categoryId },
+            attributes: ['id', 'category_id'],
+            order: [['orderIndex', 'ASC']],
+            transaction
         });
 
         // console.log("Games to update:", games.map(g => g.toJSON()));
@@ -32,13 +34,17 @@ class reorderGame extends BaseHandler{
 
         for (let i = 0; i < gameIds.length; i++) {
             await db.Games.update(
-              { orderIndex: i + 1 },          
-              { where: { 
-                id: gameIds[i], 
-                category_id: categoryId } }
+                { orderIndex: i + 1 },
+                {
+                    where: {
+                        id: gameIds[i],
+                        category_id: categoryId
+                    },
+                    transaction
+                }
             );
-          }
-          
+        }
+
         // const reorderGames = gameIds.map((id, index) => {
         //     return db.Games.update(
         //         {
@@ -59,7 +65,7 @@ class reorderGame extends BaseHandler{
     }
 }
 
-export default  reorderGame;
+export default reorderGame;
 
 
 
@@ -84,7 +90,7 @@ export default  reorderGame;
 //         return game;
 //     }
 
-//     // moving UP 
+//     // moving UP
 //     if (newPosition < currPosition) {
 //         await db.Games.increment(
 //             { order_index: 1 }, //increase by 1
@@ -99,7 +105,7 @@ export default  reorderGame;
 //         );
 //     }
 
-//     // moving DOWN 
+//     // moving DOWN
 //     if (newPosition > currPosition) {
 //         await db.Games.decrement(
 //             { order_index: 1 }, //decrease by 1

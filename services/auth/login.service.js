@@ -6,6 +6,7 @@ import BaseHandler from '../../utils/baseHandler.js'
 class LoginAuthService extends BaseHandler{
     async run() {
         const {email, password} = this.args;
+        const {transaction} = this.context;
 
         if (!email || !password) {
             throw {
@@ -20,7 +21,8 @@ class LoginAuthService extends BaseHandler{
             include: [{
                 model: db.Role,
                 as: 'Role',          // match the alias in User model
-            }]
+            }],
+            transaction
         });
 
         if (!user) {

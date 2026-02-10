@@ -4,6 +4,7 @@ import BaseHandler from '../../utils/baseHandler.js';
 class CreateGameCategory extends BaseHandler {
     async run() {
         const { data, creatorId } = this.args;
+        const {transaction} = this.context;
         
         if (!data || !creatorId) {
             const err = new Error('Invalid data or creatorId');
@@ -13,7 +14,8 @@ class CreateGameCategory extends BaseHandler {
 
         // Check if category already exists
         const existing = await db.GameCategories.findOne({
-            where: { name: data.name }
+            where: { name: data.name },
+            transaction
         });
 
         if (existing) {
@@ -30,6 +32,8 @@ class CreateGameCategory extends BaseHandler {
             status: data.status,
             createdBy: creatorId,
             orderIndex: lastOrder+1
+        },{
+            transaction
         });
     }
 }

@@ -7,6 +7,7 @@ class ListGameCategory extends BaseHandler {
 
     console.log(this.args);
     let {page, size, sortBy, order} = this.args
+    const {transaction} = this.context;
     
     //pagination
     let pageNum = 1;
@@ -36,6 +37,7 @@ class ListGameCategory extends BaseHandler {
           attributes: ['id', 'name']
         }
       ],
+      transaction
       // order: [["orderIndex", "ASC"]] for reorder to get right order
     });
   }

@@ -5,14 +5,15 @@ import userController from '../controllers/user.controller.js';
 import authController from '../controllers/auth.controller.js';
 import { validateAJV } from '../middlewares/ajv.middleware.js';
 import userSchema from '../Schema/users.schema.js'
+import contextMiddleware from '../middlewares/context.middleware.js';
 
 
 const router = express.Router();
 
-router.post('/create',validateAJV(userSchema), authenticate, checkPermission('staff_management', 'create'), userController.createUser);
+router.post('/create',validateAJV(userSchema), authenticate, checkPermission('staff_management', 'create'), contextMiddleware(true), userController.createUser);
 
-router.post('/login', authController.login);
+router.post('/login',contextMiddleware(true), authController.login);
 
-router.get('/', authenticate, userController.getAllUser);
+router.get('/', authenticate, contextMiddleware(false), userController.getAllUser);
 
 export default router;

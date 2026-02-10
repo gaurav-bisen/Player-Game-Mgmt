@@ -7,13 +7,14 @@ class CreateUserService extends BaseHandler {
 
     async run() {
         const { creator, data } = this.args;
+        const {transaction} = this.context;
 
-        const creatorRole = await db.Role.findByPk(creator.roleId);
+        const creatorRole = await db.Role.findByPk(creator.roleId, {transaction});
         if (!creatorRole) {
             throw new Error(`Creator role not found for roleId ${creator.roleId}`);
         }
 
-        const targetRole = await db.Role.findByPk(data.roleId);
+        const targetRole = await db.Role.findByPk(data.roleId, {transaction});
         if (!targetRole) {
             throw new Error(`Target role not found for roleId ${data.roleId}`);
         }
@@ -41,8 +42,8 @@ class CreateUserService extends BaseHandler {
             password: hashedPassword,
             roleId: data.roleId,
             permissions: data.permissions,
-            createdBy: creator.id
-        });
+            createdBy: creator.id,
+        }, {transaction});
 
         return user;
     }

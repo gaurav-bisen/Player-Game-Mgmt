@@ -6,7 +6,7 @@ class AuthController {
     try {
       const service = LoginAuthService.execute({
         ...req.body
-      })
+      }, req.context)
 
       const user = await service.run();
 

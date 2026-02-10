@@ -4,6 +4,7 @@ import BaseHandler from '../../utils/baseHandler.js';
 class ListGamesByCategory extends BaseHandler {
     async run() {
         const {categoryId, page, size, sortBy, order} = this.args;
+        const {transaction} = this.context;
         
         //pagination
         let pageNum = 1;
@@ -41,6 +42,7 @@ class ListGamesByCategory extends BaseHandler {
                     attributes: ['id', 'name']
                 }
             ],
+            transaction
         });
     }
 }

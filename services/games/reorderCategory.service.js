@@ -4,6 +4,7 @@ import BaseHandler from '../../utils/baseHandler.js';
 class GameCategoryReorder extends BaseHandler {
     async run() {
         const {categoryIds} = this.args;
+        const {transaction} = this.context;
         
         if (!Array.isArray(categoryIds) || categoryIds.length === 0) {
             const err = new Error("categoryIds array required");
@@ -28,7 +29,8 @@ class GameCategoryReorder extends BaseHandler {
                 {
                     where: {
                         id          //categoryid
-                    }
+                    },
+                    transaction
                 }
             )
         });

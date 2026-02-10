@@ -8,7 +8,7 @@ class UserController {
             const service = createUserService.execute({
                 creator: req.user,
                 data: req.body
-            })
+            }, req.context)
             const user = await service.run();
 
             handleResponse(res, {

@@ -4,6 +4,7 @@ import BaseHandler from '../../utils/baseHandler.js';
 class ListGames extends BaseHandler {
     async run() {
         let { page, size, sortBy, order } = this.args;
+        const {transaction} = this.context;
 
         //pagination
         page = parseInt(page);
@@ -41,8 +42,8 @@ class ListGames extends BaseHandler {
                     as: 'creator',
                     attributes: ['id', 'name']
                 }
-            ]
-
+            ],
+            transaction
         });
     }
 }
