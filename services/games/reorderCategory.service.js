@@ -1,7 +1,9 @@
 import db from '../../models/index.js'
+import BaseHandler from '../../utils/baseHandler.js';
 
-class GameCategoryReorder {
-    async reorder(categoryIds) {
+class GameCategoryReorder extends BaseHandler {
+    async run() {
+        const {categoryIds} = this.args;
         
         if (!Array.isArray(categoryIds) || categoryIds.length === 0) {
             const err = new Error("categoryIds array required");
@@ -35,12 +37,9 @@ class GameCategoryReorder {
 
         return true;
     }
-
-
-
 }
 
-export default new GameCategoryReorder();
+export default  GameCategoryReorder;
 
 
 

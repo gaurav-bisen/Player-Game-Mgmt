@@ -1,9 +1,9 @@
 import db from '../../models/index.js'
+import BaseHandler from '../../utils/baseHandler.js';
 
-class reorderGame{
-    async reorder(gameIds, categoryId){
-
-        console.log("categoryId:", categoryId, "gameIds:", gameIds);
+class reorderGame extends BaseHandler{
+    async run(){
+        const {gameIds, categoryId} = this.args;
 
         if (!Array.isArray(gameIds) || gameIds.length === 0) {
             const err = new Error("gameIds array required");
@@ -24,7 +24,7 @@ class reorderGame{
             order: [['orderIndex', 'ASC']]
         });
 
-        console.log("Games to update:", games.map(g => g.toJSON()));
+        // console.log("Games to update:", games.map(g => g.toJSON()));
 
         if (games.length !== gameIds.length) {
             throw new Error("Some games not found");
@@ -38,9 +38,7 @@ class reorderGame{
                 category_id: categoryId } }
             );
           }
-
-        
-
+          
         // const reorderGames = gameIds.map((id, index) => {
         //     return db.Games.update(
         //         {
@@ -61,7 +59,7 @@ class reorderGame{
     }
 }
 
-export default new reorderGame();
+export default  reorderGame;
 
 
 

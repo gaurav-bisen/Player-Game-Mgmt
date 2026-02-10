@@ -59,7 +59,8 @@ export default (sequelize, DataTypes) => {
     },
     last_login_at: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
+      field: 'last_login_at'
     }
   }, {
     sequelize,

@@ -1,7 +1,10 @@
 import db from '../../models/index.js'
+import BaseHandler from '../../utils/baseHandler.js';
 
-class CreateGameCategory {
-    async create(data, creatorId) {
+class CreateGameCategory extends BaseHandler {
+    async run() {
+        const { data, creatorId } = this.args;
+        
         if (!data || !creatorId) {
             const err = new Error('Invalid data or creatorId');
             err.status = 400;
@@ -31,4 +34,4 @@ class CreateGameCategory {
     }
 }
 
-export default new CreateGameCategory();
+export default  CreateGameCategory;

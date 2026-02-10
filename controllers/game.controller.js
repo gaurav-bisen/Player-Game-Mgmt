@@ -13,8 +13,11 @@ class GameController extends BaseHandler{
     //Categories
     async createCategory(req, res, next){
         try {
-            // console.log('this.args value --------------------------',this.args,'---------------------------------------------------');
-            const category = await createCategoryService.create(req.body, req.user.id);
+            const service = createCategoryService.execute({
+                data: req.body,
+                creatorId: req.user.id
+            })
+            const category = await service.run();
 
             handleResponse(res, {
                 status: 201,
@@ -27,13 +30,13 @@ class GameController extends BaseHandler{
         }
     }
 
-    async listCategory(req, res, next){
+    async listCategory(req, res, next){ //explained base handler start!
         try {
-            const {page, size, sortBy, order} = req.query;
-
+            // const {page, size, sortBy, order} = req.query;
             // const list = await listCategoryService.list(page, size, sortBy, order);
+
             const service = listCategoryService.execute({...req.query})
-            const games = await service.list();
+            const games = await service.run();
 
             handleResponse(res, {
                 status: 201,
@@ -49,7 +52,11 @@ class GameController extends BaseHandler{
     //Games
     async createGame(req, res, next){
         try {
-            const game = await createGames.create(req.body, req.user.id);
+            const service = createGames.execute({
+                data: req.body,
+                creatorId: req.user.id
+            })
+            const game = await service.run();
 
             handleResponse(res, {
                 status: 201,
@@ -63,9 +70,9 @@ class GameController extends BaseHandler{
 
     async listGame(req, res, next){
         try {
-            const {page, size, sortBy, order} = req.query;
+            const service = listGames.execute({...req.query})
 
-            const list = await listGames.list(page, size, sortBy, order);
+            const list = await service.run();
 
             handleResponse(res, {
                 status: 201,
@@ -81,10 +88,12 @@ class GameController extends BaseHandler{
     //list games by category
     async listGamesByCategory(req, res, next) {
         try {
-            const {page, size, sortBy, order} = req.query;
-            const {categoryId} = req.params;
+            const service = listGamesByCategoryService.execute({
+                ...req.query,  
+                categoryId: req.params.categoryId,
+            });
 
-            const games = await listGamesByCategoryService.list(categoryId, page, size, sortBy, order);
+            const games = await service.run();
 
             handleResponse(res, {
                 status: 201,
@@ -100,9 +109,11 @@ class GameController extends BaseHandler{
     //reorder game category
     async reorderGameCategory(req, res, next) {
         try {
-            const { categoryIds } = req.body;
+            const service = reorderGameCategoryService.execute({
+                ...req.body
+            })
 
-            const reorder = await reorderGameCategoryService.reorder(categoryIds);
+            const reorder = await service.run();
 
             handleResponse(res, {
                 status: 201,
@@ -117,9 +128,11 @@ class GameController extends BaseHandler{
     //reorder game
     async reorderGame(req, res, next) {
         try {
-            const { gameIds, categoryId } = req.body;
+            const service = reorderGameService.execute({
+                ...req.body
+            })
 
-            const reorder = await reorderGameService.reorder(gameIds, categoryId);
+            const reorder = await service.run();
 
             handleResponse(res, {
                 status: 201,

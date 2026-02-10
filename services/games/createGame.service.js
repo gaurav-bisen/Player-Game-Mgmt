@@ -1,7 +1,10 @@
 import db from '../../models/index.js'
+import BaseHandler from '../../utils/baseHandler.js';
 
-class CreateGame{
-    async create(data, creatorId){
+class CreateGame extends BaseHandler{
+    async run(){
+        const { data, creatorId } = this.args
+
         if(!data || !creatorId){
             const err = new Error('Invalid data or creatorId');
             err.status = 400;
@@ -32,4 +35,4 @@ class CreateGame{
     }
 }
 
-export default new CreateGame();
+export default CreateGame;

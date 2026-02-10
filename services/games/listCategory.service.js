@@ -3,10 +3,11 @@ import BaseHandler from '../../utils/baseHandler.js';
 
 class ListGameCategory extends BaseHandler {
   // async list(page, size, sortBy, order) {
-  async list() {
+  async run() {
 
     console.log(this.args);
     let {page, size, sortBy, order} = this.args
+    
     //pagination
     let pageNum = 1;
     if (page > 0) {
@@ -40,4 +41,4 @@ class ListGameCategory extends BaseHandler {
   }
 }
 
-export default  ListGameCategory;
+export default ListGameCategory;

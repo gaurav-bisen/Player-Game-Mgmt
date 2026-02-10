@@ -1,9 +1,18 @@
 import db from '../../models/index.js';
 import bcrypt from 'bcrypt';
 import { generateToken } from '../../utils/jwt.util.js';
+import BaseHandler from '../../utils/baseHandler.js'
 
-class LoginAuthService {
-    async login(email, password) {
+class LoginAuthService extends BaseHandler{
+    async run() {
+        const {email, password} = this.args;
+
+        if (!email || !password) {
+            throw {
+              status: 400,
+              message: 'Email and password are required'
+            };
+          }
 
         //find user
         const user = await db.User.findOne({
@@ -43,4 +52,4 @@ class LoginAuthService {
     }
 }
 
-export default new LoginAuthService();
+export default LoginAuthService;

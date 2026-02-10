@@ -1,10 +1,12 @@
 import db from '../../models/index.js'
 import bcrypt from 'bcrypt'
+import BaseHandler from '../../utils/baseHandler.js'
 import { isPermissionSubset } from '../../helpers/permission.helper.js';
 
-class CreateUserService {
+class CreateUserService extends BaseHandler {
 
-    async createUser(creator, data) {
+    async run() {
+        const { creator, data } = this.args;
 
         const creatorRole = await db.Role.findByPk(creator.roleId);
         if (!creatorRole) {
@@ -46,4 +48,4 @@ class CreateUserService {
     }
 }
 
-export default new CreateUserService();
+export default CreateUserService;

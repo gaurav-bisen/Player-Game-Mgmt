@@ -1,7 +1,10 @@
 import db from '../../models/index.js'
+import BaseHandler from '../../utils/baseHandler.js'
 
-class GetAllUserService {
-    async getAllUsers(roleId, page, size,sortBy, order) {
+class GetAllUserService extends BaseHandler {
+    async run() {
+        const {roleId, page, size,sortBy, order} = this.args;
+
         const where = roleId ? { roleId } : {}; //if roleid not provided extract all users
 
         //pagination
@@ -37,4 +40,4 @@ class GetAllUserService {
     }
 }
 
-export default new GetAllUserService();
+export default GetAllUserService;

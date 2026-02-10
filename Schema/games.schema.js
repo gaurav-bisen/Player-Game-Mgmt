@@ -27,7 +27,7 @@ const gameSchema = {
         },
     },
 
-    required: ["name", "categoryId", "createdBy", "orderIndex"],
+    required: ["name", "categoryId"],
 
     additionalProperties: false,
 };

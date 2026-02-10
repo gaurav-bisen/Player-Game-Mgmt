@@ -31,7 +31,7 @@ const userSchema = {
         }
     },
 
-    required: ["name", "email", "password", "roleId", "createdBy"],
+    required: ["name", "email", "password", "roleId"],
 
     additionalProperties: false,
 };

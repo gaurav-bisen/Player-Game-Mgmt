@@ -5,7 +5,11 @@ import {handleResponse} from '../utils/handleResponse.util.js'
 class UserController {
     async createUser(req, res, next) {
         try {
-            const user = await createUserService.createUser(req.user, req.body);
+            const service = createUserService.execute({
+                creator: req.user,
+                data: req.body
+            })
+            const user = await service.run();
 
             handleResponse(res, {
                 status: 201,
@@ -19,8 +23,10 @@ class UserController {
 
     async getAllUser(req, res, next) {
         try {
-            const { roleId, page, size, sortBy, order } = req.query;
-            const users = await getAllUsersService.getAllUsers(roleId, page, size, sortBy, order);
+            const service = getAllUsersService.execute({
+                ...req.query
+            })
+            const users = await service.run();
 
             handleResponse(res, {
                 status: 200,
