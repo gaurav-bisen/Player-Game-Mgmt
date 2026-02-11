@@ -21,7 +21,7 @@ export const authenticate = (req, res, next) => {
         }
 
         const decode = verifyToken(token);
-        console.log("========>>>>decode",decode)
+        // console.log("========>>>>decode",decode)
 
         //token in body
         //req.body.token = token;

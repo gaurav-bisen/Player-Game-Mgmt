@@ -1,10 +1,11 @@
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js';
+import cacheService from '../redis/redis.service.js'
 
 class ListGames extends BaseHandler {
     async run() {
         let { page, size, sortBy, order } = this.args;
-        const {transaction} = this.context;
+        const { transaction } = this.context;
 
         //pagination
         page = parseInt(page);
@@ -26,7 +27,21 @@ class ListGames extends BaseHandler {
 
         const orderByType = order && order.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
-        return db.Games.findAll({
+        //step1 - create cache key
+        const cacheKey = `games:page:${pageNum}:size:${pageSize}:sortBy:${sortByField}:order:${orderByType}`;
+
+        //step2 - check cache first
+        const cacheData = await cacheService.getCache(cacheKey);
+
+        if (cacheData) {
+            console.log("Games cache HIT");
+            return cacheData;
+        }
+
+        console.log("GameCategories Cache MISS → DB call");
+
+        // step3 - fetch from db
+        const games = await db.Games.findAll({
 
             limit: pageSize,
             offset: (pageNum - 1) * pageSize,
@@ -45,6 +60,11 @@ class ListGames extends BaseHandler {
             ],
             transaction
         });
+
+        //step4 - store in redis
+        await cacheService.setCache(cacheKey, games, 60);
+
+        return games;
     }
 }
 

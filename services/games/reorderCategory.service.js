@@ -1,5 +1,7 @@
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js';
+import cacheService from '../redis/redis.service.js';
+import client from '../../libs/redis.js';
 
 class GameCategoryReorder extends BaseHandler {
     async run() {
@@ -36,6 +38,15 @@ class GameCategoryReorder extends BaseHandler {
         });
 
         await Promise.all(reorderCategory);
+
+        //delete all category list cache
+        const keys = await client.keys("gameCategories:*"); //gives all keys that starts with gameCategories
+        
+        if(keys.length>0){
+            cacheService.deleteCache(keys);
+            console.log("Game Category cache cleared !");
+        }
+
 
         return true;
     }

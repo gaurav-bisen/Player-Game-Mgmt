@@ -5,6 +5,7 @@ dotenv.config();
 import errorHandling from '../SEQUELIZE/middlewares/errorHandling.middleware.js';
 import userRoute from './routes/user.route.js'
 import gameRoute from './routes/game.route.js'
+import client from './libs/redis.js';
 
 const app = express();
 console.log(process.env.PORT);

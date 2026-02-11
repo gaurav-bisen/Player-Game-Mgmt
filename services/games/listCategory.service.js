@@ -1,5 +1,6 @@
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js';
+import cacheService from '../redis/redis.service.js'
 
 class ListGameCategory extends BaseHandler {
   // async list(page, size, sortBy, order) {
@@ -26,7 +27,22 @@ class ListGameCategory extends BaseHandler {
 
     const orderByType = order && order.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
-    return db.GameCategories.findAll({
+    //step1 - create cache key'
+    const cacheKey = `gameCategories:page:${pageNum}:size:${pageSize}:sortBy:${sortByField}:order:${orderByType}`;
+
+    //step2 - check cache first
+    const cacheData = await cacheService.getCache(cacheKey);
+
+    if(cacheData){
+      console.log("GameCategories cache HIT");
+      return cacheData
+    }
+
+    console.log("GameCategories Cache MISS → DB call");
+
+    //step3- fetch from db
+
+    const categories = await db.GameCategories.findAll({
       limit: pageSize,
       offset: (pageNum - 1) * pageSize,
       order: [[sortByField, orderByType]],
@@ -40,6 +56,11 @@ class ListGameCategory extends BaseHandler {
       transaction
       // order: [["orderIndex", "ASC"]] for reorder to get right order
     });
+
+    //step4 - store in redis 
+    await cacheService.setCache(cacheKey, categories, 600);
+
+    return categories;
   }
 }
 

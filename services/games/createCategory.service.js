@@ -1,5 +1,8 @@
+import client from '../../libs/redis.js';
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js';
+import cacheService from '../redis/redis.service.js';
+
 
 class CreateGameCategory extends BaseHandler {
     async run() {
@@ -26,7 +29,7 @@ class CreateGameCategory extends BaseHandler {
         
         const lastOrder = await db.GameCategories.max("order_index") || 0;
 
-        return db.GameCategories.create({
+        const category = await db.GameCategories.create({
             name: data.name,
             description: data.description,
             status: data.status,
@@ -35,6 +38,16 @@ class CreateGameCategory extends BaseHandler {
         },{
             transaction
         });
+
+        //delete all category list cache
+        const keys = await client.keys("gameCategories:*"); //gives all keys that starts with gameCategories
+        
+        if(keys.length>0){
+            cacheService.deleteCache(keys);
+            console.log("Game Category cache cleared !");
+        }
+
+        return category;
     }
 }
 
