@@ -40,12 +40,14 @@ class CreateGameCategory extends BaseHandler {
         });
 
         //delete all category list cache
-        const keys = await client.keys("gameCategories:*"); //gives all keys that starts with gameCategories
+        // const keys = await client.keys("gameCategories:*"); //gives all keys that starts with gameCategories
         
-        if(keys.length>0){
-            cacheService.deleteCache(keys);
-            console.log("Game Category cache cleared !");
-        }
+        // if(keys.length>0){
+        //     cacheService.deleteCache(keys);
+        //     console.log("Game Category cache cleared !");
+        // }
+        await cacheService.deleteCacheByPattern("gameCategories:list:*")
+        console.log("Game category LIST cache cleared!");
 
         return category;
     }

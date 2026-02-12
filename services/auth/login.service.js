@@ -2,6 +2,7 @@ import db from '../../models/index.js';
 import bcrypt from 'bcrypt';
 import { generateToken } from '../../utils/jwt.util.js';
 import BaseHandler from '../../utils/baseHandler.js'
+import cacheService from '../redis/redis.service.js'
 
 class LoginAuthService extends BaseHandler{
     async run() {
@@ -50,7 +51,10 @@ class LoginAuthService extends BaseHandler{
             permissions: user.permissions
         });
 
-        return { token, user }
+        //store token in redis
+        await cacheService.setLoggedInUser(user.id, token, );
+
+        return { token, user}
     }
 }
 

@@ -1,6 +1,7 @@
 import { verifyToken } from '../utils/jwt.util.js'
+import cacheService from '../services/redis/redis.service.js'
 
-export const authenticate = (req, res, next) => {
+export const authenticate = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
 
     // if (!authHeader || !authHeader.startsWith("Bearer")) {
@@ -21,7 +22,14 @@ export const authenticate = (req, res, next) => {
         }
 
         const decode = verifyToken(token);
-        // console.log("========>>>>decode",decode)
+
+        //1.get token from redis
+        const redisToken = await cacheService.getLoggedInUser(decode.id);
+
+        //2.compare token
+        if(!redisToken || redisToken !== token){
+            return res.status(401).json({ message: "Session expired. Logged in from another device!!" })
+        }
 
         //token in body
         //req.body.token = token;

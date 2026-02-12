@@ -28,7 +28,7 @@ class ListGameCategory extends BaseHandler {
     const orderByType = order && order.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
 
     //step1 - create cache key'
-    const cacheKey = `gameCategories:page:${pageNum}:size:${pageSize}:sortBy:${sortByField}:order:${orderByType}`;
+    const cacheKey = `gameCategories:list:page:${pageNum}:size:${pageSize}:sortBy:${sortByField}:order:${orderByType}`;
 
     //step2 - check cache first
     const cacheData = await cacheService.getCache(cacheKey);

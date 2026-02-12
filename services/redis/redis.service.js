@@ -20,6 +20,28 @@ class cacheService {
     async deleteCache(key) {
         await client.del(key);
     }
+
+    async deleteCacheByPattern(pattern){
+        const keys = await client.keys(pattern);
+
+        if(keys.length > 0){
+            await client.del(keys);
+        }
+    }
+
+    async setLoggedInUser(userId, token, ttl=3600){
+        await client.set(`loggedInUser:${userId}`, token, {
+            EX: ttl
+        })
+    }
+
+    async getLoggedInUser(userId) {
+        return await client.get(`loggedInUser:${userId}`);
+    }
+
+    async deleteLoggedInUser(userId){
+        await client.del(`loggedInUser:${userId}`)
+    }
 }
 
 export default new cacheService();
