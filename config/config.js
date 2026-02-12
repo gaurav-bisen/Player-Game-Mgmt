@@ -1,9 +1,10 @@
 export default {
   development: {
-    username: "postgres",
-    password: "1234",
-    database: "game-player",
-    host: "localhost",
+    username: process.env.DB_USER || "postgres",
+    password: process.env.DB_PASSWORD || "1234",
+    database: process.env.DB_NAME || "game-player",
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 5432,
     dialect: "postgres"
   },
   test: {
