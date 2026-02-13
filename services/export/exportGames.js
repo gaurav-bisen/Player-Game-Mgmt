@@ -18,10 +18,6 @@ class exportGameService {
 
         console.log("JOB CREATED ID:", job.id);
 
-        //debug
-        const waiting = await exportQueue.getWaiting();
-        console.log("Jobs currently waiting:", waiting.map(j => j.id));
-
         return {
             jobId: job.id,
             message: "Export job added to queue!"
