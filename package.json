@@ -13,6 +13,9 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@bull-board/api": "^6.18.0",
+    "@bull-board/express": "^6.18.0",
+    "@bull-board/ui": "^6.18.0",
     "@faker-js/faker": "^10.3.0",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
