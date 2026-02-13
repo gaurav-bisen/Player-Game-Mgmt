@@ -1,31 +1,31 @@
-import client from '../../libs/redis.js'
+import connection from '../../libs/redis.js'
 
 
 class cacheService {
     async setCache(key, value, ttl=3600) {
-        await client.set(key, JSON.stringify(value), {
-            EX: ttl
-        });
+        await connection.set(key, JSON.stringify(value), 
+            "EX", ttl
+        );
     }
 
     // async expireCache(key, ttl = 3600) {
-    //     await client.expire(key, ttl);
+    //     await connection.expire(key, ttl);
     // }
 
     async getCache(key) {
-        const data = await client.get(key);
+        const data = await connection.get(key);
         return data ? JSON.parse(data) : null;
     }
 
     async deleteCache(key) {
-        await client.del(key);
+        await connection.del(key);
     }
 
     async deleteCacheByPattern(pattern){
-        const keys = await client.keys(pattern);
+        const keys = await connection.keys(pattern);
 
         if(keys.length > 0){
-            await client.del(keys);
+            await connection.del(...keys);
         }
     }
 }

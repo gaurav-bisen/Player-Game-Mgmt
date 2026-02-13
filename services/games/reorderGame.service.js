@@ -1,7 +1,7 @@
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js';
 import cacheService from '../redis/redis.service.js';
-import client from '../../libs/redis.js';
+import connection from '../../libs/redis.js';
 
 class reorderGame extends BaseHandler {
     async run() {
@@ -65,7 +65,7 @@ class reorderGame extends BaseHandler {
 
         //delete all category list cache
         
-        const keys = await client.keys("games:*"); //gives all keys that starts with gameCategories
+        const keys = await connection.keys("games:*"); //gives all keys that starts with gameCategories
         
         if(keys.length>0){
             cacheService.deleteCache(keys);

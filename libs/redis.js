@@ -1,28 +1,32 @@
-// import { Redis } from 'ioredis'
+import { Redis } from 'ioredis'
 
-// const client = new Redis();
+const connection = new Redis({
+    host: "127.0.0.1",
+  port: 6379,
+  maxRetriesPerRequest: null, // REQUIRED by BullMQ
+});
 
-// export default client
+export default connection
 
 
 
 
 
 //redis
-import { createClient } from 'redis'
+// import { createClient } from 'redis'
 
-const client = createClient({
-    url: process.env.REDIS_URL || 'redis://localhost:6379'
-})
+// const client = createClient({
+//     url: process.env.REDIS_URL || 'redis://localhost:6379'
+// })
 
-client.on("connect", ()=>{
-    console.log("Redis Connected !!");
-})
+// client.on("connect", ()=>{
+//     console.log("Redis Connected !!");
+// })
 
-client.on("error", (err)=> {
-    console.log("Redis error: ", err);
-})
+// client.on("error", (err)=> {
+//     console.log("Redis error: ", err);
+// })
 
-await client.connect();
+// await client.connect();
 
-export default client;
+// export default client;

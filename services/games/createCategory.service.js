@@ -1,4 +1,3 @@
-import client from '../../libs/redis.js';
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js';
 import cacheService from '../redis/redis.service.js';

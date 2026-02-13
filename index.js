@@ -5,7 +5,8 @@ dotenv.config();
 import errorHandling from './middlewares/errorHandling.middleware.js';
 import userRoute from './routes/user.route.js'
 import gameRoute from './routes/game.route.js'
-import client from './libs/redis.js';
+import exportRoute from './routes/export.route.js'
+import connection from './libs/redis.js';
 
 const app = express();
 console.log(process.env.PORT);
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 //ROUTES
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/games', gameRoute);
+app.use('/export', exportRoute)
 
 //Error handling middleware
 app.use(errorHandling);

@@ -1,7 +1,6 @@
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js';
 import cacheService from '../redis/redis.service.js';
-import client from '../../libs/redis.js';
 
 
 class CreateGame extends BaseHandler {
