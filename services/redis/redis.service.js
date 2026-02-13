@@ -28,20 +28,6 @@ class cacheService {
             await client.del(keys);
         }
     }
-
-    async setLoggedInUser(userId, token, ttl=3600){
-        await client.set(`loggedInUser:${userId}`, token, {
-            EX: ttl
-        })
-    }
-
-    async getLoggedInUser(userId) {
-        return await client.get(`loggedInUser:${userId}`);
-    }
-
-    async deleteLoggedInUser(userId){
-        await client.del(`loggedInUser:${userId}`)
-    }
 }
 
 export default new cacheService();

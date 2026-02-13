@@ -24,7 +24,9 @@ export const authenticate = async (req, res, next) => {
         const decode = verifyToken(token);
 
         //1.get token from redis
-        const redisToken = await cacheService.getLoggedInUser(decode.id);
+        const cacheKey = `loggedInUser:${decode.id}`
+        const redisToken = await cacheService.getCache(cacheKey);
+        // const redisToken = await cacheService.getLoggedInUser(decode.id);
 
         //2.compare token
         if(!redisToken || redisToken !== token){

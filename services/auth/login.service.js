@@ -52,7 +52,9 @@ class LoginAuthService extends BaseHandler{
         });
 
         //store token in redis
-        await cacheService.setLoggedInUser(user.id, token, );
+        const cacheKey = `loggedInUser:${user.id}`
+        await cacheService.setCache(cacheKey, token, 86400);
+        // await cacheService.setLoggedInUser(user.id, token, );
 
         return { token, user}
     }
