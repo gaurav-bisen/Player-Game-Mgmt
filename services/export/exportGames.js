@@ -12,8 +12,7 @@ class exportGameService {
                 type: "exponential",
                 delay: 5000
             },
-            removeOnComplete: false, // ⭐ IMPORTANT
-            removeOnFail: false
+            
         });
 
         console.log("JOB CREATED ID:", job.id);

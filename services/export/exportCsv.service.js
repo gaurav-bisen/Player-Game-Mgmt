@@ -12,13 +12,13 @@ export const exportGamesToCsv = async (job) => {
     const filePath = path.join(rootDir, "assets", `games-${Date.now()}.csv`);
 
     const csvWriter = createObjectCsvWriter({
-        path: filePath,
-        header: [
+        path: filePath, //where to save
+        header: [ //columns dbfields:csv column
             { id: "id", title: "ID" },
             { id: "name", title: "NAME" },
             { id: "createdAt", title: "CREATED_AT" }
         ],
-        append: false
+        append: false //to write header only once
     })
 
     // test fetch
@@ -42,12 +42,12 @@ export const exportGamesToCsv = async (job) => {
         const rows = await db.Games.findAll({
             limit: BATCH_SIZE, //for all 
             offset,
-            raw: true
+            raw: true //plain js object
         })
 
         if(rows.length === 0) break;
 
-        await csvWriter.writeRecords(rows);
+        await csvWriter.writeRecords(rows); //converts into csv rows
 
         offset += BATCH_SIZE;
         totalProcessed += rows.length;
