@@ -4,7 +4,7 @@ FROM node:20-alpine
 # Create app directory inside container
 WORKDIR /app
 
-# Copy package files first (for caching)
+# Copy package files first 
 COPY package*.json ./
 
 # Install dependencies
