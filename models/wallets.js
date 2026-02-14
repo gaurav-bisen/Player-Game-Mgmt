@@ -47,6 +47,7 @@ export default (sequelize, DataTypes) => {
     },
   },
     {
+      sequelize,
       modelName: "wallets",
       tableName: "wallets",
       timestamps: true,

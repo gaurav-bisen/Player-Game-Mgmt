@@ -68,6 +68,7 @@ export default (sequelize, DataTypes) => {
     },
   },
   {
+    sequelize,
     modelName: 'bonous',
     tableName: "bonous",
     timestamps: true,

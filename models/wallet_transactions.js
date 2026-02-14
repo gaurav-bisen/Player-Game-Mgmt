@@ -105,6 +105,7 @@ export default (sequelize, DataTypes) => {
     },
   },
     {
+      sequelize,
       tableName: "wallet_transactions",
       timestamps: true,
       createdAt: "created_at",
