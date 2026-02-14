@@ -4,13 +4,14 @@ import {
 } from 'sequelize';
 export default (sequelize, DataTypes) => {
   class bonous extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
     static associate(models) {
-      // define association here
+        bonous.belongsTo(models.User, {
+          foreignKey: "created_by_staff_id",
+          as: "createdBy",
+        });
+      
+      
     }
   }
   bonous.init({
@@ -25,29 +26,34 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
 
-    bonus_type: {
+    bonusType: {
       type: DataTypes.STRING,
       allowNull: false,
+      field: 'bonus_type'
     },
 
-    sc_amount: {
+    scAmount: {
       type: DataTypes.DECIMAL(18,2),
       defaultValue: 0,
+      field: 'sc_amount'
     },
 
-    gc_amount: {
+    gcAmount: {
       type: DataTypes.DECIMAL(18,2),
       defaultValue: 0,
+      field: 'gc_amount'
     },
 
-    is_active: {
+    isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
+      field: 'is_active'
     },
 
-    terms_conditions: {
+    termsConditions: {
       type: DataTypes.TEXT,
       allowNull: true,
+      field: 'terms_conditions'
     },
 
     description: {
@@ -55,16 +61,19 @@ export default (sequelize, DataTypes) => {
       allowNull: true,
     },
 
-    created_by_staff_id: {
+    createdByStaffId: {
       type: DataTypes.INTEGER,
       allowNull: true,
+      field: 'created_by_staff_id'
     },
   },
   {
-    tableName: "bonus",
+    modelName: 'bonous',
+    tableName: "bonous",
     timestamps: true,
     createdAt: "created_at",
     updatedAt: "updated_at",
+    underscored: true
   });
   return bonous;
 };

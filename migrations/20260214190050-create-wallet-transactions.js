@@ -69,7 +69,7 @@ export async function up(queryInterface, Sequelize) {
     },
 
     created_by_staff_id: {
-      type: Sequelize.UUID,
+      type: Sequelize.INTEGER,
       allowNull: true,
     },
 

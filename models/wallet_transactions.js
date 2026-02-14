@@ -4,14 +4,26 @@ import {
 } from 'sequelize';
 export default (sequelize, DataTypes) => {
   class wallet_transactions extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
     static associate(models) {
-      // define association here
-    }
+      wallet_transactions.belongsTo(models.players, {
+          foreignKey: "user_id",
+          as: "user",
+        });
+      
+        wallet_transactions.belongsTo(models.wallets, {
+          foreignKey: "wallet_id",
+          as: "wallet",
+        });
+      
+        //staff
+        wallet_transactions.belongsTo(models.User, {
+          foreignKey: "created_by_staff_id",
+          as: "staff",
+        });
+      };
+      
+    
   }
   wallet_transactions.init({
     id: {
@@ -87,7 +99,7 @@ export default (sequelize, DataTypes) => {
     },
 
     createdByStaffId: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       allowNull: true,
       field: 'created_by_staff_id'
     },

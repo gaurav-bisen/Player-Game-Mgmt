@@ -4,14 +4,18 @@ import {
 } from 'sequelize';
 export default (sequelize, DataTypes) => {
   class wallets extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
+    
     static associate(models) {
-      // define association here
-    }
+      wallets.belongsTo(models.players, {
+        foreignKey: "user_id",
+        as: "user",
+      });
+
+      wallets.hasMany(models.wallet_transactions, {
+        foreignKey: "wallet_id",
+        as: "transactions",
+      });
+    };
   }
   wallets.init({
     id: {
