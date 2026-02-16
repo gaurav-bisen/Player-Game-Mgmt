@@ -14,7 +14,12 @@ export async function up(queryInterface, Sequelize) {
     },
 
     currency_code: {
-      type: Sequelize.STRING(10),
+      type: Sequelize.ENUM(
+        "GC",
+        "SC",
+        "RSC",
+        "PSC",
+      ),
       allowNull: false,
     },
 

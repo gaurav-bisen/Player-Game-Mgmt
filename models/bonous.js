@@ -2,6 +2,8 @@
 import {
   Model
 } from 'sequelize';
+import { BONOUS_TYPE } from '../config/constants';
+
 export default (sequelize, DataTypes) => {
   class bonous extends Model {
     
@@ -10,8 +12,6 @@ export default (sequelize, DataTypes) => {
           foreignKey: "created_by_staff_id",
           as: "createdBy",
         });
-      
-      
     }
   }
   bonous.init({
@@ -27,7 +27,7 @@ export default (sequelize, DataTypes) => {
     },
 
     bonusType: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM(...Object.values(BONOUS_TYPE)),
       allowNull: false,
       field: 'bonus_type'
     },

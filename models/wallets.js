@@ -31,7 +31,7 @@ export default (sequelize, DataTypes) => {
     },
 
     currencyCode: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.ENUM(...Object.values(CURRENCY_CODE)),
       allowNull: false,
       field: 'currency_code'
     },

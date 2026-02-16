@@ -1,4 +1,5 @@
 'use strict';
+import {CURRENCY_CODE, TRANSACTION_PURPOSE, TRANSACTION_TYPE} from '../config/constants.js'
 import {
   Model
 } from 'sequelize';
@@ -45,28 +46,18 @@ export default (sequelize, DataTypes) => {
     },
 
     currencyCode: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.ENUM(...Object.values(CURRENCY_CODE)),
       allowNull: false,
       field: 'currency_code'
     },
 
     type: {
-      type: DataTypes.ENUM("CREDIT", "DEBIT"),
+      type: DataTypes.ENUM(...Object.values(TRANSACTION_TYPE)),
       allowNull: false,
     },
 
     purpose: {
-      type: DataTypes.ENUM(
-        "purchase",
-        "referral_bonus",
-        "birthday_bonus",
-        "anniversary_bonus",
-        "welcome_bonus",
-        "admin_bonus",
-        "game_win",
-        "game_bet",
-        "redeem"
-      ),
+      type: DataTypes.ENUM(...Object.values(TRANSACTION_PURPOSE)),
       allowNull: false,
     },
 

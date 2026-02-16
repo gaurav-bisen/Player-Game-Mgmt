@@ -14,17 +14,23 @@ export async function up(queryInterface, Sequelize) {
     },
 
     bonus_type: {
-      type: Sequelize.STRING,
+      type: Sequelize.ENUM(
+        "referral_bonus",
+        "birthday_bonus",
+        "anniversary_bonus",
+        "welcome_bonus",
+        "admin_bonus",
+      ),
       allowNull: false,
     },
 
     sc_amount: {
-      type: Sequelize.DECIMAL(18,2),
+      type: Sequelize.DECIMAL(18, 2),
       defaultValue: 0,
     },
 
     gc_amount: {
-      type: Sequelize.DECIMAL(18,2),
+      type: Sequelize.DECIMAL(18, 2),
       defaultValue: 0,
     },
 
