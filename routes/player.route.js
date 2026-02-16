@@ -6,4 +6,7 @@ const router = express.Router();
 
 router.post('/',contextMiddleware(true), playerController.createPlayer);
 
+router.get('/verify_email', playerController.verifyEmail)
+
+
 export default router;
