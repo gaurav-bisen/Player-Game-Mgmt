@@ -1,5 +1,6 @@
 import db from '../../models/index.js'
 import { verifyEmailToken } from '../../utils/emailToken.util.js';
+import welcomeBonusService from '../bonous/welcomeBonus.service.js';
 
 class verifyEmail {
     async verify(token) {
@@ -27,6 +28,10 @@ class verifyEmail {
         }
 
         player.isVerified = true;
+
+        //welcome bonous
+        await welcomeBonusService.run(player.id);
+
         await player.save();
 
         return {

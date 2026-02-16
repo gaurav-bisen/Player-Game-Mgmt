@@ -7,6 +7,8 @@ import userRoute from './routes/user.route.js'
 import gameRoute from './routes/game.route.js'
 import playerRoute from './routes/player.route.js'
 import exportRoute from './routes/export.route.js'
+import walletRoute from './routes/wallet.route.js'
+import transactionRoute from './routes/transaction.route.js'
 import connection from './libs/redis.js';
 const bullBoardModule = await import("./libs/BullMQ/bullBoard.js");
 
@@ -22,6 +24,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/users', userRoute);
 app.use('/api/v1/games', gameRoute);
 app.use('/api/v1/players', playerRoute);
+app.use('/api/v1/wallets', walletRoute);
+app.use('/api/v1/transaction', transactionRoute);
 app.use('/export', exportRoute);
 
 app.use("/admin/queues", bullBoardModule.bullBoardRouter);
