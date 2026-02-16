@@ -2,6 +2,7 @@
 import {
   Model
 } from 'sequelize';
+import { CURRENCY_CODE } from '../config/constants.js';
 export default (sequelize, DataTypes) => {
   class wallets extends Model {
     

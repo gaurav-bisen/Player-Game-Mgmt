@@ -2,7 +2,7 @@
 import {
   Model
 } from 'sequelize';
-import { BONOUS_TYPE } from '../config/constants';
+import { BONOUS_TYPE } from '../config/constants.js';
 
 export default (sequelize, DataTypes) => {
   class bonous extends Model {

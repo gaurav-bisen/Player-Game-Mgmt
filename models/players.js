@@ -36,14 +36,19 @@ export default (sequelize, DataTypes) => {
       unique: true,
       allowNull: false,
     },
-    dateOfBirth: DataTypes.DATEONLY,
+    dateOfBirth:{ 
+      type: DataTypes.DATEONLY,
+      field: 'date_of_Birth'
+    },
     phoneNumber: {
       type: DataTypes.STRING(20),
       allowNull: true,
+      field: 'phone_number'
     },
     isVerified: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
+      field: 'is_verified'
     },
     status: {
       type: DataTypes.STRING,
@@ -55,7 +60,8 @@ export default (sequelize, DataTypes) => {
     },
     lastLoginAt: {
       type: DataTypes.DATE,
-      allowNull: true
+      allowNull: true,
+      field: 'last_login_at'
     },
 
   }, {
@@ -67,6 +73,7 @@ export default (sequelize, DataTypes) => {
       { unique: true, fields: ["email"] },
       { unique: true, fields: ["username"] },
     ],
+    underscored: true
   });
   return players;
 };
