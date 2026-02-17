@@ -17,11 +17,6 @@ export default (sequelize, DataTypes) => {
         foreignKey: "created_by_staff_id",
         as: "bonuses",
       });
-    
-      User.hasMany(models.wallet_transactions, {
-        foreignKey: "created_by_staff_id",
-        as: "walletActions",
-      });
     }
   }
   User.init({

@@ -1,7 +1,7 @@
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js'
 import walletHelper from '../wallets/wallet.helper.js'
-import { TRANSACTION_PURPOSE, TRANSACTION_TYPE } from '../../config/constants.js'
+import { CURRENCY_CODE, TRANSACTION_PURPOSE, TRANSACTION_TYPE } from '../../config/constants.js'
 
 class CreditWalletService extends BaseHandler {
     async run() {
@@ -10,49 +10,69 @@ class CreditWalletService extends BaseHandler {
 
         const {
             userId,
-            currencyCode,
-            amount, 
+            type,
             purpose,
+            scAmount = 0,
+            gcAmount = 0,
             referenceId = null,
-            description = null,
-            staffId = null 
         } = data;
 
-        if (!userId || !currencyCode || !amount || !purpose) {
-            throw new Error("userId, currencyCode, amount and purpose are required");
+        if (!userId || !purpose) {
+            throw new Error("userId and purpose are required");
         }
 
-        //get or create wallet
-        const walletService = walletHelper.execute(
-            { data: { userId, currencyCode } },
-            this.context
-          );
+        // //get or create wallet
+        // const walletService = walletHelper.execute(
+        //     { data: { userId, currencyCode } },
+        //     this.context
+        //   );
 
-          const wallet = await walletService.run();
+        //   const wallet = await walletService.run();
 
-          console.log("------------------", wallet, "-----------------");
+        //   console.log("------------------", wallet, "-----------------");
 
-        const balanceBefore = Number(wallet.balance);
-        const balanceAfter = balanceBefore + amount;
+        // const balanceBefore = Number(wallet.balance);
+        // const balanceAfter = balanceBefore + amount;
+
+        //get sc wallet
+
+        const scWalletService = walletHelper.execute({
+            data: { userId, currencyCode: CURRENCY_CODE.SC }
+        }, this.context)
+
+        const scWallet = await scWalletService.run();
+
+        //get gc wallet
+        const gcWalletService = walletHelper.execute({
+            data: { userId, currencyCode: CURRENCY_CODE.GC }
+        }, this.context)
+
+        const gcWallet = await gcWalletService.run();
+
+        // update balances
+        if (Number(scAmount) > 0) {
+            scWallet.balance = Number(scWallet.balance) + Number(scAmount);
+            await scWallet.save({ transaction });
+        }
+
+        if (Number(gcAmount) > 0) {
+            gcWallet.balance = Number(gcWallet.balance) + Number(gcAmount);
+            await gcWallet.save({ transaction });
+        }
 
         //create transaction entry
         await db.wallet_transactions.create({
-            userId: userId,
-            walletId: wallet.id,
-            currencyCode: currencyCode,
+            userId,
             type: TRANSACTION_TYPE.CREDIT,
-            purpose: purpose,
-            amount: amount,
-            balanceBefore: balanceBefore,
-            balanceAfter: balanceAfter,
-            referenceId: referenceId,
-            description: description,
-            createdByStaffId: staffId
-        }, {transaction});
+            purpose,
+            scAmount,
+            gcAmount,
+            referenceId,
+        }, { transaction });
 
-        //update wallet balance
-        wallet.balance = balanceAfter;
-        await wallet.save({transaction})
+        return {
+            message: "Wallet credited successfully"
+        };
     }
 }
 export default CreditWalletService;

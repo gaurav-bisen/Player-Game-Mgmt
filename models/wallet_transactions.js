@@ -8,23 +8,10 @@ export default (sequelize, DataTypes) => {
     
     static associate(models) {
       wallet_transactions.belongsTo(models.players, {
-          foreignKey: "user_id",
+          foreignKey: "userId",
           as: "user",
         });
-      
-        wallet_transactions.belongsTo(models.wallets, {
-          foreignKey: "wallet_id",
-          as: "wallet",
-        });
-      
-        //staff
-        wallet_transactions.belongsTo(models.User, {
-          foreignKey: "created_by_staff_id",
-          as: "staff",
-        });
-      };
-      
-    
+      }; 
   }
   wallet_transactions.init({
     id: {
@@ -39,18 +26,6 @@ export default (sequelize, DataTypes) => {
       field: 'user_id'
     },
 
-    walletId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      field: 'wallet_id'
-    },
-
-    currencyCode: {
-      type: DataTypes.ENUM(...Object.values(CURRENCY_CODE)),
-      allowNull: false,
-      field: 'currency_code'
-    },
-
     type: {
       type: DataTypes.ENUM(...Object.values(TRANSACTION_TYPE)),
       allowNull: false,
@@ -61,38 +36,24 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
 
-    amount: {
-      type: DataTypes.DECIMAL(18, 2),
+    scAmount: {
+      type: DataTypes.DECIMAL(12, 2),
       allowNull: false,
+      defaultValue: 0,
+      field: 'sc_amount'
     },
 
-    balanceBefore: {
-      type: DataTypes.DECIMAL(18, 2),
+    gcAmount: {
+      type: DataTypes.DECIMAL(12, 2),
       allowNull: false,
-      field: 'balance_before'
-    },
-
-    balanceAfter: {
-      type: DataTypes.DECIMAL(18, 2),
-      allowNull: false,
-      field: 'balance_after'
+      defaultValue: 0,
+      field: 'gc_amount'
     },
 
     referenceId: {
       type: DataTypes.STRING,
       allowNull: true,
       field:'reference_id'
-    },
-
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-
-    createdByStaffId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      field: 'created_by_staff_id'
     },
   },
     {

@@ -11,11 +11,6 @@ export default (sequelize, DataTypes) => {
         foreignKey: "user_id",
         as: "user",
       });
-
-      wallets.hasMany(models.wallet_transactions, {
-        foreignKey: "wallet_id",
-        as: "transactions",
-      });
     };
   }
   wallets.init({

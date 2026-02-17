@@ -1,11 +1,13 @@
 'use strict';
+import { TRANSACTION_PURPOSE, TRANSACTION_TYPE } from '../config/constants.js'
+
 /** @type {import('sequelize-cli').Migration} */
 export async function up(queryInterface, Sequelize) {
   await queryInterface.createTable('wallet_transactions', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
 
     user_id: {
@@ -13,68 +15,30 @@ export async function up(queryInterface, Sequelize) {
       allowNull: false,
     },
 
-    wallet_id: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
-
-    currency_code: {
-      type: Sequelize.ENUM(
-        "GC",
-        "SC",
-        "RSC",
-        "PSC",
-      ),
-      allowNull: false,
-    },
-
     type: {
-      type: Sequelize.ENUM("CREDIT", "DEBIT"),
+      type: Sequelize.ENUM(...Object.values(TRANSACTION_TYPE)),
       allowNull: false,
     },
 
     purpose: {
-      type: Sequelize.ENUM(
-        "purchase",
-        "referral_bonus",
-        "birthday_bonus",
-        "anniversary_bonus",
-        "welcome_bonus",
-        "admin_bonus",
-        "game_win",
-        "game_bet",
-        "redeem"
-      ),
+      type: Sequelize.ENUM(...Object.values(TRANSACTION_PURPOSE)),
       allowNull: false,
     },
 
-    amount: {
-      type: Sequelize.DECIMAL(18, 2),
+    sc_amount: {
+      type: Sequelize.DECIMAL(12, 2),
       allowNull: false,
+      defaultValue: 0,
     },
 
-    balance_before: {
-      type: Sequelize.DECIMAL(18, 2),
+    gc_amount: {
+      type: Sequelize.DECIMAL(12, 2),
       allowNull: false,
-    },
-
-    balance_after: {
-      type: Sequelize.DECIMAL(18, 2),
-      allowNull: false,
+      defaultValue: 0,
     },
 
     reference_id: {
       type: Sequelize.STRING,
-      allowNull: true,
-    },
-
-    description: {
-      type: Sequelize.TEXT,
-      allowNull: true,
-    },
-
-    created_by_staff_id: {
-      type: Sequelize.INTEGER,
       allowNull: true,
     },
 
@@ -93,5 +57,10 @@ export async function up(queryInterface, Sequelize) {
 }
 export async function down(queryInterface, Sequelize) {
   await queryInterface.dropTable('wallet_transactions');
-  await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_wallet_transactions_type";');
+  await queryInterface.sequelize.query(
+    'DROP TYPE IF EXISTS "enum_wallet_transactions_type";'
+  );
+  await queryInterface.sequelize.query(
+    'DROP TYPE IF EXISTS "enum_wallet_transactions_purpose";'
+  );
 }

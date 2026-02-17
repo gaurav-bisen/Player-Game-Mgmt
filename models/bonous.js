@@ -8,10 +8,7 @@ export default (sequelize, DataTypes) => {
   class bonous extends Model {
     
     static associate(models) {
-        bonous.belongsTo(models.User, {
-          foreignKey: "created_by_staff_id",
-          as: "createdBy",
-        });
+        
     }
   }
   bonous.init({

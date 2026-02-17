@@ -6,12 +6,12 @@ export default (sequelize, DataTypes) => {
   class players extends Model {
     static associate(models) {
         players.hasMany(models.wallets, {
-          foreignKey: "user_id",
+          foreignKey: "userId",
           as: "wallets",
         });
       
         players.hasMany(models.wallet_transactions, {
-          foreignKey: "user_id",
+          foreignKey: "userId",
           as: "walletTransactions",
         });
       

@@ -7,25 +7,14 @@ class WelcomeBonusService {
     async run(userId, context = {}) {
 
         //check if alredy bonus givem
-        const scAlredyGiven = await db.wallet_transactions.findOne({
+        const alredyGiven = await db.wallet_transactions.findOne({
             where: {
                 userId: userId,
-                currencyCode: CURRENCY_CODE.SC,
                 purpose: TRANSACTION_PURPOSE.WELCOME_BONUS
             }
         })
 
-        if (scAlredyGiven) return;
-
-        const gcAlredyGiven = await db.wallet_transactions.findOne({
-            where: {
-                userId: userId,
-                currencyCode: CURRENCY_CODE.GC,
-                purpose: TRANSACTION_PURPOSE.WELCOME_BONUS
-            }
-        })
-
-        if (gcAlredyGiven) return;
+        if (alredyGiven) return;
 
         //get active welcome bonous
         const bonus = await db.bonous.findOne({
@@ -38,31 +27,43 @@ class WelcomeBonusService {
         if (!bonus) return;
 
         //give sc
-        if (bonus.scAmount > 0) {
-            const service = creditWallet.execute({
-                data: {
-                    userId,
-                    currencyCode: CURRENCY_CODE.SC,
-                    amount: bonus.scAmount,
-                    purpose: TRANSACTION_PURPOSE.WELCOME_BONUS,
-                    description: "Signup Welcome Bonous"
-                }
-            }, context)
-            await service.run();
-        }
-        //give sc
-        if (bonus.gcAmount > 0) {
-            const service = creditWallet.execute({
-                data: {
-                    userId,
-                    currencyCode: CURRENCY_CODE.GC,
-                    amount: bonus.gcAmount,
-                    purpose: TRANSACTION_PURPOSE.WELCOME_BONUS,
-                    description: "Signup Welcome Bonous"
-                }
-            }, context)
-            await service.run();
-        }
+        // if (bonus.scAmount > 0) {
+        //     const service = creditWallet.execute({
+        //         data: {
+        //             userId,
+        //             currencyCode: CURRENCY_CODE.SC,
+        //             amount: bonus.scAmount,
+        //             purpose: TRANSACTION_PURPOSE.WELCOME_BONUS,
+        //             description: "Signup Welcome Bonous"
+        //         }
+        //     }, context)
+        //     await service.run();
+        // }
+        // //give sc
+        // if (bonus.gcAmount > 0) {
+        //     const service = creditWallet.execute({
+        //         data: {
+        //             userId,
+        //             currencyCode: CURRENCY_CODE.GC,
+        //             amount: bonus.gcAmount,
+        //             purpose: TRANSACTION_PURPOSE.WELCOME_BONUS,
+        //             description: "Signup Welcome Bonous"
+        //         }
+        //     }, context)
+        //     await service.run();
+        //}
+
+        const service = creditWallet.execute({
+            data: {
+                userId,
+                scAmount: bonus.scAmount,
+                gcAmount: bonus.gcAmount,
+                purpose: TRANSACTION_PURPOSE.WELCOME_BONUS,
+                referenceId: bonus.id
+            }
+        }, context)
+
+        await service.run();
     }
 }
 
