@@ -9,7 +9,7 @@ const bonusWorker = new Worker(
     console.log("BONUS WORKER RECEIVED JOB:", job.id, job.name);
 
     if (job.name === "dailyBonusJob") {
-      const result = await runDailyBonusJobService.runDailyBonusJob();
+      const result = await runDailyBonusJobService.run();
       return { result };
     }
   },
