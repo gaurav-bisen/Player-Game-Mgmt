@@ -10,6 +10,8 @@ import exportRoute from './routes/export.route.js'
 import walletRoute from './routes/wallet.route.js'
 import transactionRoute from './routes/transaction.route.js'
 import connection from './libs/redis.js';
+import startCron from './libs/Cron/cron.service.js'
+startCron()
 const bullBoardModule = await import("./libs/BullMQ/bullBoard.js");
 
 const app = express();

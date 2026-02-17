@@ -5,3 +5,8 @@ import connection from '../../redis.js'
 export const exportQueue = new Queue("exportCSV", {
     connection
 });
+
+//bonus queue
+export const bonusQueue = new Queue("bonusQueue", {
+    connection
+})
