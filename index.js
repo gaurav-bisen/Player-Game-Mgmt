@@ -1,5 +1,6 @@
 import express from 'express'
 import dotenv from "dotenv"
+import http from 'http'
 dotenv.config();
 
 import errorHandling from './middlewares/errorHandling.middleware.js';
@@ -11,6 +12,7 @@ import walletRoute from './routes/wallet.route.js'
 import transactionRoute from './routes/transaction.route.js'
 import connection from './libs/redis.js';
 import startCron from './libs/Cron/cron.service.js'
+import {initSocket} from './libs/Socket/socket.js'
 startCron()
 const bullBoardModule = await import("./libs/BullMQ/bullBoard.js");
 
@@ -38,7 +40,13 @@ app.use("/admin/queues", bullBoardModule.bullBoardRouter);
 app.use(errorHandling);
 
 //Server running
-app.listen(port, () => {
+const server = http.createServer(app);
+
+//initialize socket 
+initSocket(server);
+
+server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
     console.log("Bull Board at http://localhost:8080/admin/queues");
+    console.log("Server running with Socket IO");
 })

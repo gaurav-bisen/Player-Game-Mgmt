@@ -1,6 +1,7 @@
 import db from '../../models/index.js'
 import BaseHandler from '../../utils/baseHandler.js'
 import walletHelper from '../wallets/wallet.helper.js'
+import { getIo } from '../../libs/Socket/socket.js'
 import { CURRENCY_CODE, TRANSACTION_PURPOSE, TRANSACTION_TYPE } from '../../config/constants.js'
 
 class CreditWalletService extends BaseHandler {
@@ -70,9 +71,23 @@ class CreditWalletService extends BaseHandler {
             referenceId,
         }, { transaction });
 
+        //emit transactions
+        const io = getIo();
+
+        console.log("Emitting socket event to user:", userId);
+
+
+        io.to(String(userId)).emit("Bonus_Credited_ON_Wallet", {
+            type: TRANSACTION_TYPE.CREDIT,
+            purpose,
+            GC : gcAmount,
+            SC: scAmount, 
+        })
+
         return {
             message: "Wallet credited successfully"
         };
+
     }
 }
 export default CreditWalletService;
