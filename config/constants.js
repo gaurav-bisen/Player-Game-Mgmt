@@ -40,4 +40,11 @@ export const WALLET_STATUS = {
     FROZEN: false,
 };
 
+//transactions status
+export const TRANSACTION_STATUS = {
+    PENDING: "pending", 
+    SUCCESS: "success", 
+    FAILED: "failed"
+}
+
 

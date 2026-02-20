@@ -16,6 +16,7 @@ class CreditWalletService extends BaseHandler {
             scAmount = 0,
             gcAmount = 0,
             referenceId = null,
+            status
         } = data;
 
         if (!userId || !purpose) {
@@ -69,6 +70,7 @@ class CreditWalletService extends BaseHandler {
             scAmount,
             gcAmount,
             referenceId,
+            status
         }, { transaction });
 
         //emit transactions

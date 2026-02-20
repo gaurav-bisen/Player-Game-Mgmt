@@ -1,17 +1,17 @@
 'use strict';
-import {CURRENCY_CODE, TRANSACTION_PURPOSE, TRANSACTION_TYPE} from '../config/constants.js'
+import { TRANSACTION_PURPOSE, TRANSACTION_STATUS, TRANSACTION_TYPE } from '../config/constants.js'
 import {
   Model
 } from 'sequelize';
 export default (sequelize, DataTypes) => {
   class wallet_transactions extends Model {
-    
+
     static associate(models) {
       wallet_transactions.belongsTo(models.players, {
-          foreignKey: "userId",
-          as: "user",
-        });
-      }; 
+        foreignKey: "userId",
+        as: "user",
+      });
+    };
   }
   wallet_transactions.init({
     id: {
@@ -53,8 +53,13 @@ export default (sequelize, DataTypes) => {
     referenceId: {
       type: DataTypes.STRING,
       allowNull: true,
-      field:'reference_id'
+      field: 'reference_id'
     },
+    status: {
+      type: DataTypes.ENUM(...Object.values(TRANSACTION_STATUS)),
+      allowNull: true,
+      defaultValue: "pending",
+    }
   },
     {
       sequelize,

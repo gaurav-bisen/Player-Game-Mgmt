@@ -10,9 +10,10 @@ import playerRoute from './routes/player.route.js'
 import exportRoute from './routes/export.route.js'
 import walletRoute from './routes/wallet.route.js'
 import transactionRoute from './routes/transaction.route.js'
+import stripeRoute from './routes/stripe.route.js'
 import connection from './libs/redis.js';
 import startCron from './libs/Cron/cron.service.js'
-import {initSocket} from './libs/Socket/socket.js'
+import { initSocket } from './libs/Socket/socket.js'
 startCron()
 const bullBoardModule = await import("./libs/BullMQ/bullBoard.js");
 
@@ -21,8 +22,13 @@ console.log(process.env.PORT);
 const port = process.env.PORT || 3000;
 
 //MIDDLEWARES
-app.use(express.json());
+app.use(express.json({
+    verify: (req, res, buf) => {
+        req.rawBody = buf.toString() // Only required for Stripe or similar services
+    }
+}));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('views'));
 
 //ROUTES
 app.use('/api/v1/users', userRoute);
@@ -30,6 +36,7 @@ app.use('/api/v1/games', gameRoute);
 app.use('/api/v1/players', playerRoute);
 app.use('/api/v1/wallets', walletRoute);
 app.use('/api/v1/transaction', transactionRoute);
+app.use('/api/v1/stripe', stripeRoute);
 app.use('/export', exportRoute);
 
 app.use("/admin/queues", bullBoardModule.bullBoardRouter);
