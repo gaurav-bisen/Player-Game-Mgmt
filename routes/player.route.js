@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.post('/',contextMiddleware(true), playerController.createPlayer);
 
-router.get('/verify_email', playerController.verifyEmail)
+router.get('/verify_email', playerController.verifyEmail);
+
+router.post('/login', contextMiddleware(true), playerController.loginPlayer)
 
 
 export default router;

@@ -3,6 +3,7 @@ import { handleResponse } from '../utils/handleResponse.util.js'
 import verifyEmailService from '../services/players/verifyPlayer.service.js'
 import { generateEmailToken } from '../utils/emailToken.util.js';
 import mail from '../services/nodemailer/email.service.js';
+import LoginPlayerService from '../services/players/loginPlayer.service.js'
 
 class playerController {
   async createPlayer(req, res, next) {
@@ -45,6 +46,25 @@ class playerController {
         message: " Email verified successfully"
       });
 
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async loginPlayer(req, res, next){
+    try {
+      const service = LoginPlayerService.execute({
+        ...req.body
+      }, req.context);
+
+      const player = await service.run();
+
+      handleResponse(res, {
+        status: 201,
+        message: "Player Login SuccessFully!",
+        data: player
+      })
+      
     } catch (error) {
       next(error);
     }
