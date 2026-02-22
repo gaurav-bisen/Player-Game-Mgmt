@@ -6,7 +6,8 @@ class StripeController {
     async createSession(req, res, next) {
         try {
             const service = stripeService.execute({
-                data: req.body
+                ...req.body,
+                playerId: req.user.id
             }, req.context)
 
             const session = await service.createCheckoutSession();

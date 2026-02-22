@@ -48,7 +48,7 @@ class LoginPlayerService extends BaseHandler{
         });
 
         //store token in redis
-        const cacheKey = `loggedInplayer:${player.id}`
+        const cacheKey = `loggedInUser:${player.id}`
         await cacheService.setCache(cacheKey, token, 86400);
         // await cacheService.setLoggedInplayer(player.id, token, );
 

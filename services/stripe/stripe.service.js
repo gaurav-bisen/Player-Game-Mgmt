@@ -3,11 +3,11 @@ import BaseHandler from '../../utils/baseHandler.js';
 
 class StripeService extends BaseHandler {
     async createCheckoutSession() {
-        const { data } = this.args;
-        const {userId, rupees} = data;
+        const { playerId, rupees } = this.args;
+
         const { transaction } = this.context;
         
-        if (!userId) {
+        if (!playerId) {
             throw new Error("User ID is required");
         }
         if (!rupees || rupees <= 0) {
@@ -15,7 +15,7 @@ class StripeService extends BaseHandler {
         }
 
         const scAmount = rupees;
-        const gcAmount = rupees * 1000;
+        const gcAmount = rupees * 1000; 
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
@@ -33,7 +33,7 @@ class StripeService extends BaseHandler {
             success_url: `${process.env.BACKEND_URL}/api/v1/stripe/success`,
             cancel_url: `${process.env.BACKEND_URL}/api/v1/stripe/cancel`,
             metadata: {
-                userId,
+                playerId,
                 scAmount: scAmount.toString(),
                 gcAmount: gcAmount.toString(),
             }

@@ -1,10 +1,11 @@
 import express from 'express'
 import stripeController from '../controllers/stripe.controller.js';
 import contextMiddleware from '../middlewares/context.middleware.js';
+import { authenticate } from '../middlewares/auth.middleware.js'
 
 const router = express.Router();
 
-router.post('/create-checkout-session', contextMiddleware(true), stripeController.createSession);
+router.post('/create-checkout-session', authenticate, contextMiddleware(true), stripeController.createSession);
 
 router.post('/stripe-webhook', contextMiddleware(true), stripeController.stripeWebHook)
 

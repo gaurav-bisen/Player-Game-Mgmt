@@ -26,14 +26,14 @@ class StripeWebHookService extends BaseHandler {
         if (event.type === 'checkout.session.completed') {
             const session = event.data.object;
 
-            const userId = session.metadata.userId;
+            const playerId = session.metadata.playerId;
             const scAmount = Number(session.metadata.scAmount);
             const gcAmount = Number(session.metadata.gcAmount)
 
             //credit wallet
             const service = creditWallet.execute({
                 data: {
-                    userId: userId,
+                    userId: playerId,
                     scAmount,
                     gcAmount,
                     purpose: TRANSACTION_PURPOSE.PURCHASE,
