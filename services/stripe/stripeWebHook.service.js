@@ -1,9 +1,14 @@
 import { TRANSACTION_PURPOSE, TRANSACTION_STATUS } from '../../config/constants.js';
 import stripe from '../../libs/Stripe/stripe.js'
+import BaseHandler from '../../utils/baseHandler.js';
 import creditWallet from '../transactions/creditWallet.service.js'
 
-class StripeWebHookService {
-    async handleWebhook({ rawBody, signature }) {
+class StripeWebHookService extends BaseHandler {
+    async run() {
+
+        const { rawBody, signature } = this.args;
+        const {transaction} = this.context;
+
         let event;
 
         try {
@@ -34,12 +39,12 @@ class StripeWebHookService {
                     purpose: TRANSACTION_PURPOSE.PURCHASE,
                     status: TRANSACTION_STATUS.SUCCESS
                 }
-            });
-            await service.run();
+            }, {transaction});
 
-            return true;
+            await service.run();
         }
+        return true;
     }
 }
 
-export default new StripeWebHookService()
+export default StripeWebHookService

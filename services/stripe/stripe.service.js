@@ -42,4 +42,4 @@ class StripeService extends BaseHandler {
     }
 }
 
-export default new StripeService();
+export default  StripeService;

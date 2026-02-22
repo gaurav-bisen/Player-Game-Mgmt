@@ -24,10 +24,17 @@ class StripeController {
 
     async stripeWebHook(req, res, next) {
         try {
-            const signature = req.headers["stripe-signature"];
-            const rawBody = req.rawBody;
 
-            await stripeWebHookService.handleWebhook({ rawBody, signature });
+            const service = stripeWebHookService.execute({
+                rawBody: req.rawBody,
+                signature: req.headers["stripe-signature"]
+            }, req.context)
+
+            // const signature = req.headers["stripe-signature"];
+            // const rawBody = req.rawBody;
+            // await stripeWebHookService.handleWebhook({ rawBody, signature });
+
+            await service.run();
 
             return res.json({ received: true });
         } catch (error) {
