@@ -17,7 +17,7 @@ class StripeService extends BaseHandler {
         const scAmount = rupees;
         const gcAmount = rupees * 1000; 
 
-        const session = await stripe.checkout.sessions.create({
+        const session = await stripe.checkout.sessions.create({ //creates payment page
             payment_method_types: ["card"],
             mode: "payment",
             line_items: [{
@@ -26,13 +26,14 @@ class StripeService extends BaseHandler {
                     product_data: {
                         name: `₹${rupees} Package`
                     },
-                    unit_amount: rupees * 100 //convert to paisa
+                    unit_amount: rupees * 100 //1 rupee = 100 paisa
                 },
                 quantity: 1
             }],
             success_url: `${process.env.BACKEND_URL}/api/v1/stripe/success`,
             cancel_url: `${process.env.BACKEND_URL}/api/v1/stripe/cancel`,
-            metadata: {
+
+            metadata: { //Sticky note attached to payment - Later webhook reads this and credits wallet.
                 playerId,
                 scAmount: scAmount.toString(),
                 gcAmount: gcAmount.toString(),

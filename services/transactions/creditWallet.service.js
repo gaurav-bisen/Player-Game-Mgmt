@@ -78,7 +78,6 @@ class CreditWalletService extends BaseHandler {
 
         console.log("Emitting socket event to user:", userId);
 
-
         io.to(String(userId)).emit("Bonus_Credited_ON_Wallet", {
             type: TRANSACTION_TYPE.CREDIT,
             purpose,

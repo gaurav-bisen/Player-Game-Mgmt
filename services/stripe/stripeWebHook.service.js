@@ -24,8 +24,9 @@ class StripeWebHookService extends BaseHandler {
 
         //run only checkout.session.completed
         if (event.type === 'checkout.session.completed') {
-            const session = event.data.object;
+            const session = event.data.object; 
 
+            //extract meta data
             const playerId = session.metadata.playerId;
             const scAmount = Number(session.metadata.scAmount);
             const gcAmount = Number(session.metadata.gcAmount)
