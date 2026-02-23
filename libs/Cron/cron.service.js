@@ -1,7 +1,7 @@
 import cron from "node-cron";
 import { bonusQueue } from '../BullMQ/queues/export.queue.js'
 
-// run every day at 1 AM
+// run every day at 1 AM - 0 1 * * *
 
 export default function startCron() {
     cron.schedule("* * * * *", async () => {

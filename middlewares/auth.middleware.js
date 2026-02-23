@@ -26,6 +26,7 @@ export const authenticate = async (req, res, next) => {
         //1.get token from redis
         const cacheKey = `loggedInUser:${decode.id}`
         const redisToken = await cacheService.getCache(cacheKey);
+        
         // const redisToken = await cacheService.getLoggedInUser(decode.id);
 
         //2.compare token

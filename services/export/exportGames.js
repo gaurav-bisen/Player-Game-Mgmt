@@ -10,7 +10,7 @@ class exportGameService {
         }, {
             attempts: 3, //retry 
             backoff: { //retry delay
-                type: "exponential", //increase retry time in continous fail
+                type: "exponential", //increase retry time in continous fail eg. 2s->4s->8s
                 delay: 5000
             },
 

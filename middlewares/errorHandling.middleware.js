@@ -1,5 +1,4 @@
 //centralized error handling
-
 const errorHandling = (err, req, res, next)=>{
     console.log(err.stack);
     const status = err.status || 500;
