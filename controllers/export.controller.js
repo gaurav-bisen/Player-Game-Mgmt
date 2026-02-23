@@ -1,5 +1,5 @@
 import {handleResponse} from '../utils/handleResponse.util.js'
-import exportService from '../services/export/exportGames.js'
+import exportService from '../services/export/exportGames.service.js'
 import jobStatusService from '../services/export/jobStatus.service.js';
 
 class exportController{
