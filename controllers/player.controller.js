@@ -4,6 +4,7 @@ import verifyEmailService from '../services/players/verifyPlayer.service.js'
 import { generateEmailToken } from '../utils/emailToken.util.js';
 import mail from '../services/nodemailer/email.service.js';
 import LoginPlayerService from '../services/players/loginPlayer.service.js'
+import GoogleSuccessService from '../services/googleAuth/success.service.js';
 
 class playerController {
   async createPlayer(req, res, next) {
@@ -68,6 +69,28 @@ class playerController {
     } catch (error) {
       next(error);
     }
+  }
+
+  async successGoogleAuth(req, res, next){
+    try {
+      const service = GoogleSuccessService.execute({
+        user: req.user
+      }, req.context);
+  
+      const player = await service.run();
+
+      handleResponse(res, {
+        status: 201,
+        data: player
+      });
+
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async failure(req, res) {
+    return res.status(401).json({ message: "Google authentication failed" });
   }
 }
 

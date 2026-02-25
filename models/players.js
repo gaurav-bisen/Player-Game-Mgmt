@@ -2,6 +2,7 @@
 import {
   Model
 } from 'sequelize';
+import { PROVIDER_TYPES } from '../config/constants.js';
 export default (sequelize, DataTypes) => {
   class players extends Model {
     static associate(models) {
@@ -14,8 +15,6 @@ export default (sequelize, DataTypes) => {
           foreignKey: "userId",
           as: "walletTransactions",
         });
-      
-      
     }
   }
   players.init({
@@ -56,14 +55,22 @@ export default (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     lastLoginAt: {
       type: DataTypes.DATE,
       allowNull: true,
       field: 'last_login_at'
     },
-
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: "google_id"
+    },
+    provider: {
+      type: DataTypes.ENUM(...Object.values(PROVIDER_TYPES)),
+      defaultValue: "local"
+    },
   }, {
     sequelize,
     modelName: 'players',

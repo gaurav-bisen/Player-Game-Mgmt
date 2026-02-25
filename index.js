@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from "dotenv"
 import http from 'http'
+import passport from 'passport';
 dotenv.config();
 
 import errorHandling from './middlewares/errorHandling.middleware.js';
@@ -16,6 +17,8 @@ import startCron from './libs/Cron/cron.service.js'
 import { initSocket } from './libs/Socket/socket.js'
 startCron()
 const bullBoardModule = await import("./libs/BullMQ/bullBoard.js");
+import { initGooglePassport } from './libs/passport/google.passport.js';
+initGooglePassport();
 
 const app = express();
 console.log(process.env.PORT);
@@ -29,6 +32,7 @@ app.use(express.json({
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('views'));
+app.use(passport.initialize());
 
 //ROUTES
 app.use('/api/v1/users', userRoute);

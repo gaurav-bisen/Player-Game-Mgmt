@@ -47,4 +47,8 @@ export const TRANSACTION_STATUS = {
     FAILED: "failed"
 }
 
-
+//provider
+export const PROVIDER_TYPES = {
+    LOCAL: "local",
+    GOOGLE: "google"
+}
